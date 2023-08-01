@@ -11,11 +11,12 @@ $client = new Client([
 $loginUrl = 'https://actinium-service.carrierpro.com/carrierpro/login';
 $dateUrl  = 'https://gatekeeper-service.rtspro.com/';
 
+
 try {
     $loginResponse = $client->post($loginUrl, [
         'form_params' => [
-            'username' => 'mykhailo.kharchenko1@nure.ua',
-            'password' => '~U%&tu!pGA9%hM:'
+            'username' => $_GET['username'] ? $_GET['username'] :  'mykhailo.kharchenko1@nure.ua',
+            'password' => $_GET['password'] ? $_GET['password'] : '~U%&tu!pGA9%hM:'
         ]
     ]);
 } catch (\GuzzleHttp\Exception\RequestException $exception) {
@@ -54,7 +55,7 @@ try {
                 'put' => ['Content-Type' => 'application/x-www-form-urlencoded'],
                 'patch' => ['Content-Type' => 'application/x-www-form-urlencoded'],
             ],
-            'url' => 'https://credit-service.carrierpro.com/debtor/search?type=mcNumber&value=01392149',
+            'url' => 'https://credit-service.carrierpro.com/debtor/search?type=mcNumber&value=' . $_GET['mcNumber'] ? $_GET['mcNumber'] : '01392149' ,
             'method' => 'get',
             'requester' => 'mykhailo.kharchenko1@nure.ua',
         ],
