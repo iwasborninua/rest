@@ -1,5 +1,4 @@
 <?php
-
 require_once('vendor/autoload.php');
 
 use GuzzleHttp\Client;
@@ -8,17 +7,21 @@ $client = new Client([
     'verify' => false
 ]);
 
+$username = 'mykhailo.kharchenko1@nure.ua';
+$password = '~U%&tu!pGA9%hM:';
+$mcNumber = $_GET['mcNumber'];
+
 $loginUrl = 'https://actinium-service.carrierpro.com/carrierpro/login';
 $dateUrl  = 'https://gatekeeper-service.rtspro.com/';
-
 
 try {
     $loginResponse = $client->post($loginUrl, [
         'form_params' => [
-            'username' => $_GET['username'] ? $_GET['username'] :  'mykhailo.kharchenko1@nure.ua',
-            'password' => $_GET['password'] ? $_GET['password'] : '~U%&tu!pGA9%hM:'
+            'username' => $username,
+            'password' => $password
         ]
     ]);
+
 } catch (\GuzzleHttp\Exception\RequestException $exception) {
     if ($exception->getCode() == 401) {
         echo PHP_EOL . "Не верный логин или пароль!" . PHP_EOL;
@@ -55,7 +58,7 @@ try {
                 'put' => ['Content-Type' => 'application/x-www-form-urlencoded'],
                 'patch' => ['Content-Type' => 'application/x-www-form-urlencoded'],
             ],
-            'url' => 'https://credit-service.carrierpro.com/debtor/search?type=mcNumber&value=' . $_GET['mcNumber'] ? $_GET['mcNumber'] : '01392149' ,
+            'url' => 'https://credit-service.carrierpro.com/debtor/search?type=mcNumber&value=' . $mcNumber,
             'method' => 'get',
             'requester' => 'mykhailo.kharchenko1@nure.ua',
         ],
@@ -82,9 +85,7 @@ try {
         $updatedData[] = $updatedItem;
     }
 
-    print_r($updatedData);
-
-    return json_encode($updatedData);
+    echo json_encode($updatedData);
 
 } catch (\GuzzleHttp\Exception\RequestException $e) {
     echo $e->getMessage();
